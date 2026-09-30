@@ -1,0 +1,29 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  library:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check the library (files, frontmatter, evals, links, leak list, em dashes)
+        run: python3 scripts/check.py
+      - name: Dry-run every create script
+        run: |
+          set -euo pipefail
+          for d in bots/*/ teams/*/*/; do
+            [ -f "$d/instructions.md" ] || continue
+            bash scripts/create-bot.sh "$d" > /dev/null
+          done
+          for t in teams/*/; do
+            bash scripts/create-team.sh "$t" > /dev/null
+          done
+      - name: Parse the issue forms
+        run: python3 -c "import sys, yaml; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" .github/ISSUE_TEMPLATE/*.yml

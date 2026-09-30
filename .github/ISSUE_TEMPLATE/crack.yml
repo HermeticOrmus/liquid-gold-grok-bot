@@ -1,0 +1,58 @@
+name: Report a crack
+description: Something in a bot, team or script here breaks. Show the evidence and it gets sealed in the open.
+title: "[Crack] "
+labels: ["crack"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A crack is a place where an entry breaks: a bot that acted without asking, a skill step that misleads, a script that does the wrong thing, a doc line that is not true. Every confirmed crack gets a row in that entry's LEDGER.md, and its seal lands in the text people install.
+  - type: input
+    id: entry
+    attributes:
+      label: Entry
+      description: The folder or file.
+      placeholder: "bots/night-watch, teams/stack-kitchen, scripts/create-bot.sh"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What went wrong
+      description: One or two plain sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: The prompt you sent and what the bot answered, a command and its output, a screenshot, or a link. Remove anything private before you paste it.
+    validations:
+      required: true
+  - type: dropdown
+    id: grade
+    attributes:
+      label: Grade
+      options:
+        - "hairline: copy or cosmetic"
+        - "fracture: wrong behavior with a workaround"
+        - "break: it does not work, loses data, or breaks a safety or privacy promise"
+    validations:
+      required: true
+  - type: textarea
+    id: seal
+    attributes:
+      label: Suggested seal
+      description: The rule, skill step, check or eval prompt that would stop it.
+  - type: checkboxes
+    id: fix
+    attributes:
+      label: Want to seal it?
+      options:
+        - label: I would like to open the pull request that seals this crack.
+  - type: checkboxes
+    id: credit
+    attributes:
+      label: Credit
+      options:
+        - label: If this report leads to a seal, you may credit my GitHub handle in the ledger.
