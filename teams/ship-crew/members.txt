@@ -1,0 +1,6 @@
+# One member bot folder per line, from the repo root.
+bots/chief-of-staff
+bots/builder
+bots/proof-judge
+bots/night-watch
+bots/playbook-keeper

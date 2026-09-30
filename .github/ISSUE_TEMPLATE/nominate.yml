@@ -1,0 +1,59 @@
+name: Nominate a bot or template
+description: Point us at a Grok Bot or template that deserves a place in the library.
+title: "[Nominate] "
+labels: ["nomination"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Good nominations have a clear job and a link anyone can open. We never copy another creator's instructions: a community pick gets a credited card built only from what its public page shows.
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: The x.ai/bot template link, or its Grok Bot Marketplace page.
+      placeholder: "https://x.ai/bot/..."
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Bot name and creator
+      placeholder: "Night Watch, by its creator as the page shows it"
+    validations:
+      required: true
+  - type: textarea
+    id: job
+    attributes:
+      label: The job it does
+      description: Who it serves, and what it gets done.
+    validations:
+      required: true
+  - type: textarea
+    id: gold
+    attributes:
+      label: Why it is gold
+      description: What it gets right that most bots get wrong. For example a refusal rule, one decision at a time, a routine that stays silent when nothing changed, a proof bar.
+    validations:
+      required: true
+  - type: textarea
+    id: cracks
+    attributes:
+      label: Known cracks
+      description: Anything that went wrong when you used it, with evidence if you have it.
+  - type: dropdown
+    id: relation
+    attributes:
+      label: Your relation to it
+      options:
+        - I made it
+        - I use it
+        - I only read the page
+    validations:
+      required: true
+  - type: checkboxes
+    id: credit
+    attributes:
+      label: Credit
+      options:
+        - label: If this nomination leads to a card, you may credit my GitHub handle in the catalog.
