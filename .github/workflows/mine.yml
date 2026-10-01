@@ -1,0 +1,37 @@
+name: mine
+
+# Restocks the pantry with the listing mine: every Grok Bot Marketplace
+# listing, what its page publishes, and which ones are new or not carded yet.
+# The result is one pull request on the pantry/mine branch, updated in place,
+# for a maintainer to read and merge. Nothing is carded here.
+
+on:
+  schedule:
+    - cron: "23 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Mine the Grok Bot Marketplace
+        run: python3 scripts/mine.py
+      - name: Open or update the pantry pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B pantry/mine
+          git add pantry/
+          git diff --cached --quiet && { echo "nothing new"; exit 0; }
+          git commit -q -m "docs(pantry): stock the listing mine"
+          git push -f origin pantry/mine
+          gh pr view pantry/mine --json state --jq .state 2>/dev/null | grep -q OPEN || gh pr create --head pantry/mine \
+            --title "docs(pantry): stock the listing mine" \
+            --body "The scheduled mine of the Grok Bot Marketplace: every listing, what its page publishes, and which are new or not carded. Read the file under pantry/, then merge. New community picks are their own pull requests."
