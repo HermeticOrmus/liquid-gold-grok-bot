@@ -17,10 +17,15 @@ mined here is marked gold.
 
 No account, no token, no writes to the marketplace. One page at a time, with
 a pause between requests.
+
+When LEAK_LIST points at the private term list (outside this repo, as for
+scripts/check.py), a quoted term on it is replaced with "[term omitted]", so a
+mine that passes the local check can be merged as it is.
 """
 import argparse
 import datetime as dt
 import json
+import os
 import re
 import sys
 import time
@@ -33,6 +38,25 @@ BASE = "https://x.ai/bot/marketplace"
 SLUG = re.compile(r"/bot/marketplace/bots/([a-z0-9-]+)")
 ASKS_FIRST = re.compile(r"approv|your (exact )?yes|without (you|your)|never (send|spend|sign|post|create|change)|ask(s)? (you )?first|draft", re.I)
 log: list[str] = []
+
+
+def private_terms() -> list[re.Pattern]:
+    path = os.environ.get("LEAK_LIST")
+    if not path:
+        return []
+    terms = []
+    for t in Path(path).expanduser().read_text(encoding="utf-8").splitlines():
+        t = t.strip()
+        if not t or t.startswith("#"):
+            continue
+        t = t[len("people:"):].strip() if t.lower().startswith("people:") else t
+        # The same rule as scripts/check.py: a term with regex characters is a regex.
+        rx = t if set("\\|*+?[](){}^$") & set(t) else r"(?<![\w])" + re.escape(t) + r"(?![\w])"
+        terms.append(re.compile(rx, re.I))
+    return terms
+
+
+PRIVATE = private_terms()
 
 
 def fetch(url: str) -> str:
@@ -75,7 +99,11 @@ def names(items: list) -> list[str]:
 
 
 def cell(s: str) -> str:
-    return (s or "").replace("|", "/").replace("\n", " ").strip()
+    # The library's check bans em dashes, so a quoted one is shown as a hyphen.
+    s = (s or "").replace("|", "/").replace("\n", " ").replace("\u2014", "-").strip()
+    for rx in PRIVATE:
+        s = rx.sub("[term omitted]", s)
+    return s
 
 
 def main() -> int:
@@ -120,8 +148,8 @@ def main() -> int:
     new = sum(1 for r in rows if r[6] == "new")
     lines = ["# Listing mine: liquid-gold-grok-bot", "",
              f"Read on {today} by `scripts/mine.py` from the [Grok Bot Marketplace]({BASE}). Every row is quoted from "
-             "the listing's own page data. Habits are what anyone can see from outside; a row is a lead for a card, "
-             "not a grade.", "",
+             "the listing's own page data (an em dash in a quote is shown as a hyphen). Habits are what anyone can "
+             "see from outside; a row is a lead for a card, not a grade.", "",
              f"{len(rows)} listings read, {len(cards)} carded, "
              + (f"{new} new since [{prev}]({prev})." if prev else "no earlier listing mine to compare."), "",
              "## Listings", "",
