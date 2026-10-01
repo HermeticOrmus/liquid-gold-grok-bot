@@ -4,10 +4,13 @@ name: mine
 # listing, what its page publishes, and which ones are new or not carded yet.
 # The result is one pull request on the pantry/mine branch, updated in place,
 # for a maintainer to read and merge. Nothing is carded here.
+#
+# Run it from the Actions tab. It has no schedule: the private term list that
+# mine.py and scripts/check.py read (LEAK_LIST) never lives on GitHub, so a run
+# here can quote a term the local check rejects. Run the local check before
+# merging its pull request. The scheduled mine runs on the maintainer's machine.
 
 on:
-  schedule:
-    - cron: "23 9 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -34,4 +37,4 @@ jobs:
           git push -f origin pantry/mine
           gh pr view pantry/mine --json state --jq .state 2>/dev/null | grep -q OPEN || gh pr create --head pantry/mine \
             --title "docs(pantry): stock the listing mine" \
-            --body "The scheduled mine of the Grok Bot Marketplace: every listing, what its page publishes, and which are new or not carded. Read the file under pantry/, then merge. New community picks are their own pull requests."
+            --body "The mine of the Grok Bot Marketplace: every listing, what its page publishes, and which are new or not carded. Read the file under pantry/, then merge. New community picks are their own pull requests."
