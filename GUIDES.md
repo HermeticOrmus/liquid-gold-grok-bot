@@ -10,7 +10,7 @@ None yet.
 
 | Gotcha | Read | For a Grok Bot user | Bears on | Reproduced |
 |--------|------|---------------------|----------|------------|
-| [Template import drops skills](https://forum.cursor.com/t/grok-bot-templates-preview-shows-skills-but-the-export-ships-skills-skills-are-never-delivered/169911) | 2026-10-04 | A template preview can list skills that the import never delivers, and the skill text in that preview still cannot be copied, so recreate the skill by hand or install from a folder you can read. | [Stage 5: Hallmark](RUBRIC.md), [Proof Judge](bots/proof-judge/template.md) publishing | *inferred* |
+| [Template import drops skills](https://forum.cursor.com/t/grok-bot-templates-preview-shows-skills-but-the-export-ships-skills-skills-are-never-delivered/169911) | 2026-10-04 | A template preview can list skills the import does not deliver, and the skill text in that preview still cannot be copied, so recreate the skill by hand or install from a folder you can read. | [Stage 5: Hallmark](RUBRIC.md), [Proof Judge](bots/proof-judge/template.md) publishing | *inferred* |
 
 ## Posts
 
