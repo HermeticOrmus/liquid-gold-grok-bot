@@ -13,17 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Check the library (files, frontmatter, evals, routine fields, ask first, links, leak list, em dashes)
-        run: python3 scripts/check.py
-      - name: Dry-run every create script
+      - name: Check the library (files, frontmatter, evals, routine fields, ask first, links, leak patterns, em dashes, create script dry runs, issue forms)
+        run: bash scripts/check.sh
+      # A pull request can loosen its own check.sh, so the base branch's copy
+      # runs on the same tree too. A pull request that moves a file the base
+      # copy names lands the check.sh change first, in its own pull request.
+      - name: Check the library, base branch copy
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          set -euo pipefail
-          for d in bots/*/ teams/*/*/; do
-            [ -f "$d/instructions.md" ] || continue
-            bash scripts/create-bot.sh "$d" > /dev/null
-          done
-          for t in teams/*/; do
-            bash scripts/create-team.sh "$t" > /dev/null
-          done
-      - name: Parse the issue forms
-        run: python3 -c "import sys, yaml; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" .github/ISSUE_TEMPLATE/*.yml
+          git fetch -q --depth=1 origin "$BASE_REF"
+          if ! git cat-file -e FETCH_HEAD:scripts/check.sh 2>/dev/null; then
+            echo "The base branch has no scripts/check.sh yet; this pull request adds it."
+            exit 0
+          fi
+          git show FETCH_HEAD:scripts/check.sh > scripts/check.sh
+          bash scripts/check.sh

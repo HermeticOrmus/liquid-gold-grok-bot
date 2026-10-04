@@ -67,11 +67,12 @@ python3 scripts/check.py --fixtures            # one broken bot folder per stage
 scripts/create-bot.sh bots/<name>              # prints the gbot command; creates nothing
 scripts/create-team.sh teams/<name>            # prints the member and group commands
 python3 -c "import sys, yaml; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" .github/ISSUE_TEMPLATE/*.yml
+scripts/check.sh                               # the check, the dry runs and the forms in one command, the way CI runs them
 ```
 
 The dry runs show exactly what `--yes` would run against your own Grok Bot account. To try a bot for real, run it with `--yes` (it needs the [gbot CLI](https://github.com/ScriptedAlchemy/grok-bot-cli), 0.11.2 or later, and a signed-in Grok Bot app), then run its `eval.md` prompts in a fresh chat.
 
-CI runs the same checks on every pull request. A first-time contributor's CI run waits for a maintainer to approve it.
+CI runs `scripts/check.sh` on every pull request and on every push to main (`.github/workflows/check.yml`). A first-time contributor's CI run waits for a maintainer to approve it.
 
 ## House rules
 
