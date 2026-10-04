@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Check the library (files, frontmatter, evals, links, leak list, em dashes)
+      - name: Check the library (files, frontmatter, evals, routine fields, ask first, links, leak list, em dashes)
         run: python3 scripts/check.py
       - name: Dry-run every create script
         run: |

@@ -62,7 +62,8 @@ Avatar shapes: blob, pebble, bean, egg, squircle, tablet, capsule, cylinder, hex
 From the repo root:
 
 ```bash
-python3 scripts/check.py                       # files, frontmatter, evals, links, leaks, em dashes
+python3 scripts/check.py                       # files, frontmatter, evals, routine fields, ask first, links, leaks, em dashes
+python3 scripts/check.py --fixtures            # one broken bot folder per stage 2 rule, each one failing
 scripts/create-bot.sh bots/<name>              # prints the gbot command; creates nothing
 scripts/create-team.sh teams/<name>            # prints the member and group commands
 python3 -c "import sys, yaml; [yaml.safe_load(open(f)) for f in sys.argv[1:]]" .github/ISSUE_TEMPLATE/*.yml

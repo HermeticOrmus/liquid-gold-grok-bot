@@ -4,9 +4,15 @@
 Run from anywhere: python3 scripts/check.py
 
 It checks that every bot and team folder has its files, that frontmatter is
-complete, that every eval has Must and Must never lines, that relative links
-resolve, and that nothing private or em-dashed slipped in. It exits 1 on any
-failure and prints one line per problem with the file and line.
+complete, that every eval has Must and Must never lines, that each routine
+table has its stage 2 rows and a Cost line when the trigger names a schedule
+or an event, that plugins.md has an Ask first rules section, that relative
+links resolve, and that nothing private or em-dashed slipped in. It exits 1
+on any failure and prints one line per problem with the file and line.
+
+`python3 scripts/check.py --fixtures` runs only the stage 2 checks against
+the broken bot folders in scripts/fixtures/. Those folders sit outside
+bots/ and teams/, so a normal run does not treat them as library entries.
 """
 import re
 import pathlib
@@ -58,6 +64,22 @@ PATTERNS = [
 # Words that must not reach a template: the text a stranger installs.
 TEMPLATE_WORDS = re.compile(r"\b(?:ormus|hermetic\w*)\b", re.I)
 LINK = re.compile(r"\]\(([^)\s]+)\)")
+# RUBRIC.md stage 2. Each routine table names these rows. Cost is required
+# only when that routine's Trigger names a schedule or an event.
+ROUTINE_FIELDS = (
+    "Owning bot",
+    "Trigger",
+    "Schedule and time zone",
+    "Input",
+    "Result",
+    "Approval boundary",
+    "Missing source",
+)
+TRIGGER_SPEND = re.compile(r"\b(?:schedules?|events?)\b", re.I)
+COST_LINE = re.compile(r"(?m)^\s*Cost:")
+ASK_FIRST = re.compile(r"^## Ask first rules\s*$", re.M)
+HEADING = re.compile(r"^#{1,6} ")
+SEP_CELL = re.compile(r":?-{1,}:?")
 
 problems = []
 
@@ -112,6 +134,12 @@ def check_bot(folder):
     ev = folder / "eval.md"
     if ev.is_file():
         check_eval(ev)
+    routines = folder / "routines.md"
+    if routines.is_file():
+        check_routines(routines)
+    plugins = folder / "plugins.md"
+    if plugins.is_file():
+        check_plugins(plugins)
     tpl = folder / "template.md"
     if tpl.is_file():
         text = tpl.read_text(encoding="utf-8")
@@ -178,6 +206,122 @@ def check_team(team):
     return folders
 
 
+def row_cells(line):
+    raw = line.strip()
+    if raw.startswith("|"):
+        raw = raw[1:]
+    if raw.endswith("|"):
+        raw = raw[:-1]
+    return [cell.strip() for cell in raw.split("|")]
+
+
+def clean_field(cell):
+    return re.sub(r"[*_`]", "", cell).strip()
+
+
+def iter_tables(lines):
+    i = 0
+    n = len(lines)
+    while i < n:
+        if lines[i].lstrip().startswith("|"):
+            start = i
+            block = []
+            while i < n and lines[i].lstrip().startswith("|"):
+                block.append(lines[i])
+                i += 1
+            yield start, block
+        else:
+            i += 1
+
+
+def routine_rows(block, start):
+    """Map stage 2 field names to (line, value) for one table.
+
+    Returns None when the table is not a routine table.
+    """
+    parsed = []
+    for offset, line in enumerate(block):
+        cells = row_cells(line)
+        if not cells or all(SEP_CELL.fullmatch(cell.replace(" ", "")) for cell in cells):
+            continue
+        parsed.append((start + offset + 1, cells))
+    if not parsed:
+        return None
+    fields = {}
+    saw_header = False
+    for line_no, cells in parsed:
+        name = clean_field(cells[0])
+        if name == "Field":
+            saw_header = True
+            continue
+        if name in ROUTINE_FIELDS and name not in fields:
+            value = cells[1].strip() if len(cells) > 1 else ""
+            fields[name] = (line_no, value)
+    if not fields and not saw_header:
+        return None
+    return fields
+
+
+def section_text(lines, index):
+    start = 0
+    for i in range(index, -1, -1):
+        if HEADING.match(lines[i]):
+            start = i
+            break
+    end = len(lines)
+    for i in range(index + 1, len(lines)):
+        if HEADING.match(lines[i]):
+            end = i
+            break
+    return "\n".join(lines[start:end])
+
+
+def heading_title(lines, index):
+    for i in range(index, -1, -1):
+        if HEADING.match(lines[i]):
+            return lines[i].lstrip("#").strip()
+    return ""
+
+
+def check_routines(path):
+    lines = path.read_text(encoding="utf-8").splitlines()
+    tables = []
+    for start, block in iter_tables(lines):
+        fields = routine_rows(block, start)
+        if fields is not None:
+            tables.append((start, fields))
+    if not tables:
+        for field in ROUTINE_FIELDS:
+            fail(path, 0, f"no table row for {field}")
+        return
+    for start, fields in tables:
+        title = heading_title(lines, start)
+        prefix = f"routine '{title}': " if title else ""
+        for field in ROUTINE_FIELDS:
+            if field not in fields:
+                fail(path, start + 1, f"{prefix}no table row for {field}")
+        trigger = fields.get("Trigger")
+        if trigger and TRIGGER_SPEND.search(trigger[1]):
+            if not COST_LINE.search(section_text(lines, start)):
+                fail(path, trigger[0],
+                     f"{prefix}Trigger names a schedule or an event and has no Cost: line")
+
+
+def check_plugins(path):
+    text = path.read_text(encoding="utf-8")
+    if not ASK_FIRST.search(text):
+        fail(path, 0, "no '## Ask first rules' section")
+
+
+def check_stage2(folder):
+    routines = folder / "routines.md"
+    if routines.is_file():
+        check_routines(routines)
+    plugins = folder / "plugins.md"
+    if plugins.is_file():
+        check_plugins(plugins)
+
+
 def check_links(path, text):
     for n, line in enumerate(text.splitlines(), 1):
         for target in LINK.findall(line):
@@ -208,7 +352,30 @@ def check_text(path, text):
             fail(path, n, "template text must not name the publisher; keep it brand-neutral")
 
 
+def run_fixtures():
+    root = ROOT / "scripts" / "fixtures"
+    folders = []
+    if not root.is_dir():
+        fail(root, 0, "no fixtures directory")
+    else:
+        folders = sorted(p for p in root.iterdir() if p.is_dir())
+        if not folders:
+            fail(root, 0, "no fixture bot folders")
+        for folder in folders:
+            before = len(problems)
+            check_stage2(folder)
+            if len(problems) == before:
+                fail(folder, 0, "fixture produced no failure")
+    for p in problems:
+        print(p)
+    status = "FAIL" if problems else "ok"
+    print(f"check: {status}: {len(folders)} fixtures, {len(problems)} problems")
+    return 1 if problems else 0
+
+
 def main():
+    if "--fixtures" in sys.argv[1:]:
+        return run_fixtures()
     bots = sorted(p for p in (ROOT / "bots").iterdir() if p.is_dir())
     teams = sorted(p for p in (ROOT / "teams").iterdir() if p.is_dir())
     all_bots = list(bots)
