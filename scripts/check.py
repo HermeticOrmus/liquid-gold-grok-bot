@@ -50,6 +50,33 @@ if _leak:
         _t = _t[len("people:"):].strip() if _people else _t
         _rx = _t if _REGEX_CHARS & set(_t) else r"(?<![\w])" + re.escape(_t) + r"(?![\w])"
         (PEOPLE if _people else PRIVATE).append(re.compile(_rx, re.I))
+# A maintainer can also point LEAK_ALLOW at a file outside the repo that names reviewed public
+# contexts a list term may appear in (for example a term quoted from a public marketplace listing).
+# One rule per line, # ignored: a plain regex is removed from every line before the list is tested;
+# "strip=<rx>" plus tab-separated "path=<rx>", "file=<rx>" and "line=<rx>" removes it only when every
+# given condition holds (path is repo-relative). Like the list, the allowlist never enters this repo.
+ALLOW = []
+_allow = os.environ.get("LEAK_ALLOW")
+if _allow and _leak:
+    for _r in pathlib.Path(_allow).expanduser().read_text(encoding="utf-8").splitlines():
+        if not _r.strip() or _r.lstrip().startswith("#"):
+            continue
+        _f = dict(x.split("=", 1) for x in _r.split("\t") if "=" in x) if _r.startswith("strip=") else {"strip": _r.strip()}
+        ALLOW.append((re.compile(_f["strip"], re.I),
+                      re.compile(_f["path"]) if _f.get("path") else None,
+                      re.compile(_f["file"], re.I) if _f.get("file") else None,
+                      re.compile(_f["line"], re.I) if _f.get("line") else None))
+
+
+def allowed_out(rel, text, line):
+    """The line with every reviewed public context (LEAK_ALLOW) removed; only the list check uses it."""
+    for strip, path, file_rx, line_rx in ALLOW:
+        if (path and not path.search(rel)) or (file_rx and not file_rx.search(text)) or (line_rx and not line_rx.search(line)):
+            continue
+        line = strip.sub(" ", line)
+    return line
+
+
 PEOPLE_SCOPE = ("bots/", "teams/", "community/", "pantry/")
 PATTERNS = [
     ("a path under /home or /Users", re.compile(r"/home/|/Users/")),
@@ -344,8 +371,9 @@ def check_text(path, text):
         for label, pat in PATTERNS:
             if pat.search(line):
                 fail(path, n, f"looks like {label}")
+        listed = allowed_out(rel, text, line) if ALLOW else line
         for rx in PRIVATE + (PEOPLE if people else []):
-            if rx.search(line):
+            if rx.search(listed):
                 fail(path, n, "a term on the private leak list; rephrase it")
                 break
         if template and TEMPLATE_WORDS.search(line):
@@ -406,7 +434,7 @@ def main():
         print(p)
     status = "FAIL" if problems else "ok"
     print(f"check: {status}: {len(all_bots)} bots, {len(teams)} teams, {scanned} files scanned, "
-          f"{len(problems)} problems (private list: {len(PRIVATE) + len(PEOPLE) if _leak else 'not loaded, set LEAK_LIST'}, "
+          f"{len(problems)} problems (private list: {len(PRIVATE) + len(PEOPLE) if _leak else 'not loaded, set LEAK_LIST'}{f" with {len(ALLOW)} allowed contexts" if ALLOW else ""}, "
           f"{len(PATTERNS)} generic patterns)")
     return 1 if problems else 0
 
