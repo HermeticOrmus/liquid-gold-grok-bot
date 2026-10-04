@@ -13,3 +13,5 @@
 | Missing source | If GitHub cannot be read, say so once in the group and keep the last known Menu state. |
 
 Keep the match narrow: one repo, those three events. A broad listener spends usage on nothing. Use **Test run** on a closed Goal first.
+
+Cost: every run is a model run, whether it starts from an event or from the schedule fallback. The narrow match above keeps that spend on the Menu.
