@@ -71,6 +71,8 @@ This library is independent and not affiliated with xAI or Cursor.
 
 Plus sixteen credited [community picks](community/) from the [Grok Bot Marketplace](https://x.ai/bot/marketplace), by Lingxi Li, Lauren Tan, Ulysses Ng, Robin Delta, Daniel Gartshein, Jon Grigull, Lenny Rachitsky, Anoop Baliga, Josh Kim, Emma Weyrauch, Tommy Hansen and Shub Gaur. [`scripts/mine.py`](scripts/mine.py) reads every marketplace listing so the next picks come from the whole shelf. Every entry, with install links: [CATALOG.md](CATALOG.md).
 
+[Grok Ship](community/grok-ship.md) is a further card, read from its public repository and credited to Kun Chen. That commit marks the repository superseded, so the card's level is watch.
+
 ## How a bot earns gold
 
 Every entry goes through five stages: ready the vessel (a clear job, scope and refusal rules), trace the cracks (card-shaped decisions, secrets and connectors, routine cadence and cost), keep the ledger, seal with gold (every crack sealed in the installed text, an eval with Must and Must never lines), and hallmark (the leak check passes, the eval runs on a live bot, the template is published). A bot is **gold** only when its live eval run is in its ledger. Everything here is **assayed**: every stage done on paper, and no live eval run recorded yet. The full rubric: [RUBRIC.md](RUBRIC.md).
