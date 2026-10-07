@@ -69,7 +69,7 @@ This library is independent and not affiliated with xAI or Cursor.
 | [Stack Kitchen](teams/stack-kitchen/) (team) | assayed | Desk and Kitchen ship one repo through Goal issues |
 | [Ship Crew](teams/ship-crew/) (team) | assayed | Five of the bots above in one group for one repo |
 
-Plus sixteen credited [community picks](community/) from the [Grok Bot Marketplace](https://x.ai/bot/marketplace), by Lingxi Li, Lauren Tan, Ulysses Ng, Robin Delta, Daniel Gartshein, Jon Grigull, Lenny Rachitsky, Anoop Baliga, Josh Kim, Emma Weyrauch, Tommy Hansen and Shub Gaur. [`scripts/mine.py`](scripts/mine.py) reads every marketplace listing so the next picks come from the whole shelf. Every entry, with install links: [CATALOG.md](CATALOG.md).
+Plus sixteen credited [community picks](community/) from the [Grok Bot Marketplace](https://x.ai/bot/marketplace), by Lingxi Li, Lauren Tan, Ulysses Ng, Robin Delta, Daniel Gartshein, Jon Grigull, Lenny Rachitsky, Anoop Baliga, Josh Kim, Emma Weyrauch, Tommy Hansen and Shub Gaur. One more pick, [Bouncer](community/bouncer.md) by Brad Shannon, is carded from its public share page. [`scripts/mine.py`](scripts/mine.py) reads every marketplace listing so the next picks come from the whole shelf. Every entry, with install links: [CATALOG.md](CATALOG.md).
 
 ## How a bot earns gold
 
