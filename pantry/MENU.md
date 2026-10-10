@@ -1,7 +1,7 @@
 # Menu: liquid-gold-grok-bot
 
-Queue: 2026-10-04-pantry-queue.md
-Counts: open 65, in flight 0, shipped 1, parked 0, dropped 0, needs fixing 0
+Queue: 2026-10-10-pantry-queue.md
+Counts: open 62, in flight 2, shipped 1, parked 1, dropped 0, needs fixing 0
 
 ## Steer
 
@@ -9,14 +9,14 @@ Counts: open 65, in flight 0, shipped 1, parked 0, dropped 0, needs fixing 0
 
 ## Up next
 
-**publish-proof-judge**: Publish Proof Judge as a template (`publish-proof-judge`) (queue #2, high, host, since 2026-09-30)
+**gotcha-template-import-drops-skills**: List `gotcha-template-import-drops-skills` in GUIDES.md (queue #19, high, repo, since 2026-10-04)
 
-- Done when: `bots/proof-judge/template.md` holds an `https://x.ai/bot/` link in place of "pending publish"; `curl -sL <that link>` returns a page whose title is "Proof Judge" and which shows "Add to Grok Bot"; the Proof Judge row in CATALOG.md links the template; `python3 scripts/check.py` passes
-- Verify on: host (the owner's Grok Bot app publishes; the check runs anywhere)
-- Evidence: Matrix: "One-click Add to Grok Bot link per entry" (Us N; MP, majiayu000 and divo12 Y; cobus N). X: @bot "You can now share templates of your Bots with others."
-- Issue: #9
-- Order: bouncer, gotcha-template-import-drops-skills, grok-ship, grokbot-field-notes, import-bot, loops, projects-manager, proto-bot, startup-qa-bot, swe-cursor, tinkabot, publish-proof-judge, proof-judge-eval, catalog-json, account-research-desk, sell-bot, ad-spend-watch, ai-search-visibility, call-follow-ups, copy-humanizer, critiquito, cto, doc-approvals-security-privacy, doc-create-and-manage-bots, doc-grok-bot-overview, doc-skills-and-routines, doc-team-bots, figma-bro, gojiberryai-sales-os, gotcha-bots-not-a-security-boundary, gotcha-custom-connectors-in-chat, gotcha-no-local-mcp, gotcha-weekly-usage-on-demand, grok-bot-coach, grok-bot-templates, guide-flavio-copes-deep-dive, guide-grok-bot-101, guide-grok-bot-for-engineering, guide-multiple-teams-of-grok-bots, guide-templates-for-grok-bot, hub-cursor-forum-grok-bot, hub-grokdex, hub-majiayu000-awesome-grok-bot, hub-ronglecat-awesome-grok-bot, last30days, market-researcher, marketing-project-manager, post-bot-building-software, post-bot-share-templates, post-mattyp-templates-launch, post-team-bots-announcement, pr-reviewer, researcher, researchy, sequencer, signal-prospector, tech-demos, token-efficiency-optimizer, tradbot, website-ops, writing-bot, x-brief, assay-engineer-bot, publish-night-watch, stack-kitchen-eval
-- Tie: none
+- Done when: `GUIDES.md` at the repo root (created by the first such atom, with sections Guides, Gotchas, Posts and Hubs) has a row under Gotchas for Template import drops skills linking https://forum.cursor.com/t/grok-bot-templates-preview-shows-skills-but-the-export-ships-skills-skills-are-never-delivered/169911, with the date read, one line in our own words on what it gives a Grok Bot user, and the RUBRIC.md stage or bot it bears on, and whether it was reproduced (with the steps and result) or is marked *inferred*; `README.md` and `CATALOG.md` link `GUIDES.md`; `python3 scripts/check.py` passes
+- Verify on: repo
+- Evidence: Type: tip/gotcha. Source: https://forum.cursor.com/t/grok-bot-templates-preview-shows-skills-but-the-export-ships-skills-skills-are-never-delivered/169911. Why: Directly affects every template we publish (Proof Judge). Our install docs need a workaround line. Signal (read 2026-10-03): cited in majiayu000/awesome-grok-bot or RongleCat. Stocked from Diego's 2026-10-03 catch-up list, priority A (section 2.6, row 1).
+- Issue: none yet (promote after merge)
+- Order: gotcha-template-import-drops-skills, grokbot-field-notes, import-bot, loops, projects-manager, proto-bot, startup-qa-bot, swe-cursor, tinkabot, proof-judge-eval, catalog-json, account-research-desk, sell-bot, ad-spend-watch, ai-search-visibility, call-follow-ups, copy-humanizer, critiquito, cto, doc-approvals-security-privacy, doc-create-and-manage-bots, doc-grok-bot-overview, doc-skills-and-routines, doc-team-bots, figma-bro, gojiberryai-sales-os, gotcha-bots-not-a-security-boundary, gotcha-custom-connectors-in-chat, gotcha-no-local-mcp, gotcha-weekly-usage-on-demand, grok-bot-coach, grok-bot-templates, guide-flavio-copes-deep-dive, guide-grok-bot-101, guide-grok-bot-for-engineering, guide-multiple-teams-of-grok-bots, guide-templates-for-grok-bot, hub-cursor-forum-grok-bot, hub-grokdex, hub-majiayu000-awesome-grok-bot, hub-ronglecat-awesome-grok-bot, last30days, market-researcher, marketing-project-manager, post-bot-building-software, post-bot-share-templates, post-mattyp-templates-launch, post-team-bots-announcement, pr-reviewer, researcher, researchy, sequencer, signal-prospector, tech-demos, token-efficiency-optimizer, tradbot, website-ops, writing-bot, x-brief, assay-engineer-bot, publish-night-watch, stack-kitchen-eval
+- Tie: gotcha-template-import-drops-skills over grokbot-field-notes, import-bot, loops, projects-manager, proto-bot, startup-qa-bot, swe-cursor, tinkabot, by key order (jev off)
 
 ## Atoms
 
@@ -26,7 +26,7 @@ Counts: open 65, in flight 0, shipped 1, parked 0, dropped 0, needs fixing 0
 | ad-spend-watch | Card the `ad-spend-watch` listing from the marketplace | open | medium | repo | 2026-10-04 | 21 | - | - |
 | ai-search-visibility | Card the `ai-search-visibility` listing from the marketplace | open | medium | repo | 2026-10-04 | 29 | - | - |
 | assay-engineer-bot | Assay Lingxi's Engineer Bot from its template details (`assay-engineer-bot`) | open | medium | host | 2026-09-30 | 6 | - | - |
-| bouncer | Card the shared `bouncer` template | open | high | repo | 2026-10-04 | 15 | - | - |
+| bouncer | Card the shared `bouncer` template | in-flight | high | repo | 2026-10-04 | 15 | #13 | PR #15 (menu/bouncer) |
 | call-follow-ups | Card the `call-follow-ups` listing from the marketplace | open | medium | repo | 2026-10-04 | 24 | - | - |
 | catalog-json | Publish a machine-readable `catalog-json` | open | medium | repo | 2026-09-30 | 1 | - | - |
 | copy-humanizer | Card the `copy-humanizer` listing from the marketplace | open | medium | repo | 2026-10-04 | 23 | - | - |
@@ -46,7 +46,7 @@ Counts: open 65, in flight 0, shipped 1, parked 0, dropped 0, needs fixing 0
 | gotcha-weekly-usage-on-demand | List `gotcha-weekly-usage-on-demand` in GUIDES.md | open | medium | repo | 2026-10-04 | 57 | - | - |
 | grok-bot-coach | Card the shared `grok-bot-coach` template | open | medium | repo | 2026-10-04 | 38 | - | - |
 | grok-bot-templates | Card the public team `grok-bot-templates` | open | medium | repo | 2026-10-04 | 43 | - | - |
-| grok-ship | Card the public team `grok-ship` | open | high | repo | 2026-10-04 | 17 | - | - |
+| grok-ship | Card the public team `grok-ship` | in-flight | high | repo | 2026-10-04 | 17 | - | PR #16 (menu/grok-ship) |
 | grokbot-field-notes | Card the public team `grokbot-field-notes` | open | high | repo | 2026-10-04 | 18 | - | - |
 | guide-flavio-copes-deep-dive | List `guide-flavio-copes-deep-dive` in GUIDES.md | open | medium | repo | 2026-10-04 | 53 | - | - |
 | guide-grok-bot-101 | List `guide-grok-bot-101` in GUIDES.md | open | medium | repo | 2026-10-04 | 45 | - | - |
@@ -71,7 +71,6 @@ Counts: open 65, in flight 0, shipped 1, parked 0, dropped 0, needs fixing 0
 | proof-judge-eval | Run Proof Judge live against its prompts (`proof-judge-eval`) | open | high | eval | 2026-09-30 | 4 | - | - |
 | proto-bot | Card the `proto-bot` listing from the marketplace | open | high | repo | 2026-10-04 | 11 | - | - |
 | publish-night-watch | Publish Night Watch as a template (`publish-night-watch`) | open | medium | host | 2026-09-30 | 3 | - | - |
-| publish-proof-judge | Publish Proof Judge as a template (`publish-proof-judge`) | open | high | host | 2026-09-30 | 2 | #9 | - |
 | researcher | Card the shared `researcher` template | open | medium | repo | 2026-10-04 | 40 | - | - |
 | researchy | Card the `researchy` listing from the marketplace | open | medium | repo | 2026-10-04 | 36 | - | - |
 | sell-bot | Card the `sell-bot` listing from the marketplace | open | medium | repo | 2026-10-03 | 8 | - | - |
@@ -92,6 +91,7 @@ Counts: open 65, in flight 0, shipped 1, parked 0, dropped 0, needs fixing 0
 
 | Key | Title | State | Since | Issue | Because |
 |-----|-------|-------|-------|-------|---------|
+| publish-proof-judge | Publish Proof Judge as a template (`publish-proof-judge`) | parked | 2026-09-30 | #9 | label parked #9 |
 | rubric-check | Check the routine and plugin fields in CI (`rubric-check`) | shipped | 2026-09-30 | #3 | bullet: Check the routine and plugin fields in CI (`rubric-check`): shipped, PR #8 |
 
 ## Notes
