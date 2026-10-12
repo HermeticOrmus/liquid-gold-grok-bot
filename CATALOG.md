@@ -30,7 +30,7 @@ Team seats that live only inside a team:
 
 ## Community picks
 
-Credited, never copied. See [community/README.md](community/README.md) for what "assayed from the page" means.
+Credited, never copied. See [community/README.md](community/README.md) for what "assayed from the page" means. A card read from a public repository names the level that read supports.
 
 | Pick | Author | Level | Job | Install |
 |------|--------|-------|-----|---------|
@@ -50,3 +50,4 @@ Credited, never copied. See [community/README.md](community/README.md) for what 
 | [Event Request Desk](community/event-request-desk.md) | Emma Weyrauch | assayed from the page | Scores every event, sponsorship and speaking ask against your rubric and drafts the reply for you to send. | [Add to Grok Bot](https://x.ai/bot/hp7QlVUPuYUp09kc6IFAA) |
 | [Recruiting Coordinator](community/recruiting-coordinator.md) | Tommy Hansen | assayed from the page | Schedules interview loops and drafts candidate mail. Never sends, books, posts or rejects without your yes. | [Add to Grok Bot](https://x.ai/bot/KDahOjiDbbAvxqx9KaGcq) |
 | [Stalk Bot](community/stalk-bot.md) | Shub Gaur | assayed from the page | Watches named competitors across mail, site, pricing, changelog, jobs and X. Never posts, never contacts their people. | [Add to Grok Bot](https://x.ai/bot/Y7iWVNiPdorgu6oFY-PRG) |
+| [Grok Ship](community/grok-ship.md) | Kun Chen | watch | Superseded at this commit by the Firstmate template. The files still file scout and ship, review the branch before any pull request, and leave a factory merge to you. | [Repo](https://github.com/kunchenguid/grok-ship) at [87825cca5c16c1c5da4f532676bccd5c3342918b](https://github.com/kunchenguid/grok-ship/commit/87825cca5c16c1c5da4f532676bccd5c3342918b) |
