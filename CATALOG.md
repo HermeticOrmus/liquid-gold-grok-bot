@@ -1,6 +1,6 @@
 # Catalog
 
-Every entry in the library: its level, its job, and how to install it. Levels are defined in [RUBRIC.md](RUBRIC.md). Every template link here is still pending publish, so the install column gives the other two ways.
+Every entry in the library: its level, its job, and how to install it. Levels are defined in [RUBRIC.md](RUBRIC.md). Every template link here is still pending publish, so the install column gives the other two ways. Guides, gotchas, posts and hubs: [GUIDES.md](GUIDES.md).
 
 ## Bots
 
