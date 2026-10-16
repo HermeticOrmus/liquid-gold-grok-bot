@@ -1,6 +1,6 @@
 # Menu: liquid-gold-grok-bot
 
-Queue: 2026-10-14-pantry-queue.md
+Queue: 2026-10-16-pantry-queue.md
 Counts: open 63, in flight 0, shipped 3, parked 0, dropped 0, needs fixing 0
 
 ## Steer
