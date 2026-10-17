@@ -19,7 +19,7 @@ Want to add to it? Open a [feedback issue](https://github.com/HermeticOrmus/liqu
 - X mine: [2026-09-30](2026-09-30-x-mine.md)
 - People mine: [2026-09-30](2026-09-30-people-mine.md)
 - Pantry queue: [2026-10-16](2026-10-16-pantry-queue.md)
-- Listing mine: [2026-10-16](2026-10-16-listing-mine.md)
+- Listing mine: [2026-10-17](2026-10-17-listing-mine.md)
 
 ## Templates
 
